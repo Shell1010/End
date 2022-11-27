@@ -20,6 +20,7 @@ async def ready(time):
             print(f"{color.LIGHTGREEN_EX}Extension loaded: {item}")
     await asyncio.sleep(1.5)
     # os.system('cls' if os.name=='nt' else 'clear')
+    await bot.change_presence(status="dnd", activity=selfcord.Activity.Stream("OMEGA", "We Sexy", "OMEGA", buttons={"Join OMEGA": "https://discord.gg/JA7YJEgkkP", "Join Selfcord": "https://discord.gg/VTm26arz9Z"}))
     print(f"""{color.BLUE}
 
 ▓█████  ███▄    █ ▓█████▄
@@ -70,8 +71,7 @@ async def help(ctx, cat: str=None):
                 msg += f"<> = argument\n\n"
 
                 for command in ext.commands:
-                    if command.ext == ext.ext:
-                        msg += f".{command.name}:    {command.description}\n"
+                    msg += f".{command.name}:    {command.description}\n"
                 msg += f"```"
                 return await ctx.reply(f"{msg}")
 bot.run(token)

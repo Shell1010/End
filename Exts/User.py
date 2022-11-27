@@ -9,31 +9,39 @@ class Ext(Extender, name="User", description="User related utility commands"):
         msg = "```ini\n"
         user = await self.bot.get_user(user_id)
         profile = await user.get_profile()
-        msg += f"[ Username ] - {user}\n[ ID ] - {user.id}\n[ Bot? ] - {user.bot_acc}\n[ Created At ] - {user.created_at}\n[ Base64 Token ] - {user.b64token}\n[ Bio ]\n{profile.bio}\n\n"
-        msg += f"[ Mutual Guilds ]\n\n"
-        try:
-            for guild in profile.mutual_guilds:
-                msg += f"   - [ {guild.name} ]\n"
-        except:
-            msg += f"None\n"
+        msg += f"[ Username ] - {user}\n[ ID ] - {user.id}\n[ Bot? ] - {user.bot_acc}\n[ Created At ] - {user.created_at}\n[ Base64 Token ] - {user.b64token}\n[ Bio ]\n{profile.bio if profile != None else None}\n\n"
+        if profile != None:
+            msg += f"[ Mutual Guilds ]\n\n"
+            try:
+                for guild in profile.mutual_guilds:
+                    msg += f"   - [ {guild.name} ]\n"
+            except:
+                msg += f"None\n"
 
-        msg += f"\n[ Connected Accounts ]\n\n"
-        try:
-            for account in profile.connected_accounts:
-                msg += f"   [ {account.type} ] - {account.name}\n"
-        except:
-            msg += f"None\n"
+            msg += f"\n[ Connected Accounts ]\n\n"
+            try:
+                for account in profile.connected_accounts:
+                    msg += f"   [ {account.type} ] - {account.name}\n"
+            except:
+                msg += f"None\n"
 
-        msg += f"\n[ Premium Type ] - {profile.premium_type}\n```"
+            msg += f"\n[ Premium Type ] - {profile.premium_type}\n```"
 
-        avatar = user.avatar_url
-        banner = user.banner_url
-        msg += f"AVATAR: {avatar}\nBANNER: {banner}"
+            avatar = user.avatar_url
+            banner = user.banner_url
+            msg += f"AVATAR: {avatar}\nBANNER: {banner}"
+        else:
+            msg += "```\n"
+            avatar = user.avatar_url
+            banner = user.banner_url
+            msg += f"AVATAR: {avatar}\nBANNER: {banner}"
+
         await ctx.reply(msg)
 
     @Extender.cmd(description="Steals a users pfp <user>", aliases=['getpfp'])
     async def stealpfp(self, ctx, id: str):
         user = await self.bot.get_user(id)
+        print(user.avatar_url)
         await self.bot.change_pfp(user.avatar_url)
         await ctx.reply("Successfully changed pfp")
 
